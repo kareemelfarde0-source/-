@@ -1,0 +1,6 @@
+{
+  "name": "ألبان الدوار - لوحة التحكم",
+  "description": "لوحة التحكم المتكاملة لإدارة منتجات وأقسام وعروض وقاعدة بيانات ألبان الدوار",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
