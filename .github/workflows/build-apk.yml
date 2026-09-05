@@ -22,13 +22,17 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Set up Gradle
+        # الريبو مالوش ملف gradlew (Gradle Wrapper)، فبنثبت Gradle
+        # نفسه هنا بدل ما نعتمد على ملف ناقص.
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
 
       - name: Generate debug keystore
-        # debug.keystore is gitignored, so it never exists in the repo.
-        # This recreates the standard Android debug keystore that
-        # signingConfigs.debugConfig expects at the project root.
+        # debug.keystore متجاهل من git (.gitignore)، فمش موجود في الريبو.
+        # الخطوة دي بتعيد إنشاء نفس ملف التوقيع القياسي بتاع أندرويد
+        # اللي signingConfigs.debugConfig محتاجه في جذر المشروع.
         run: |
           keytool -genkey -v \
             -keystore debug.keystore \
@@ -41,7 +45,7 @@ jobs:
             -keysize 2048
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
